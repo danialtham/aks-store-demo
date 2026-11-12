@@ -36,6 +36,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         }
       })
 
+      // Add-to-cart beacon (mirrors the nginx 204 endpoint in nginx.conf)
+      server.middlewares.use('/api/events/cart', (req: IncomingMessage, res: ServerResponse) => {
+        console.log(`${req.method} /api/events/cart${req.url ?? ''} 204`)
+        res.statusCode = 204
+        res.end()
+      })
+
       // Get all products
       server.middlewares.use('/api/products', (req: IncomingMessage, res: ServerResponse) => {
         if (req.method === 'GET') {
