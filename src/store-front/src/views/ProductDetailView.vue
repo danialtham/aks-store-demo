@@ -32,6 +32,7 @@
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useProductStore, useCartStore } from '@/stores'
+import { trackAddToCart } from '@/telemetry'
 import type { Product, CartItem } from '@/types'
 
 const productStore = useProductStore()
@@ -52,6 +53,7 @@ const addToCart = () => {
     quantity: quantity.value,
   }
   cartStore.addItem(cartItem)
+  trackAddToCart(cartItem.product.id, cartItem.quantity)
 }
 </script>
 
